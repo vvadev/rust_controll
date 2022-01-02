@@ -21,6 +21,7 @@ class _ServerCardState extends State<ServerCard> {
   SharedPref sharedPref = SharedPref();
   Server serverload = Server();
 
+  // получаем данные сервера из памяти
   loadSharedPrefs(String id) async {
     try {
       Server server = Server.fromJson(await sharedPref.readServer(id));
@@ -37,7 +38,6 @@ class _ServerCardState extends State<ServerCard> {
   @override
   initState() {
     super.initState();
-    // Add listeners to this class
     loadSharedPrefs(serverIndex);
   }
 

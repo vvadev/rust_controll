@@ -3,6 +3,17 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+/*
+
+  Функции в данном файле позволяют отправлять запросы к панели управления
+  по средствам передачи url, id, apikey
+  URL для отправки формируется из адреса панели и id сервера
+
+  headers  содержит имформацию для авторищации
+  body отправляемые данные
+
+*/
+
 startServer(String panelURL, String serverID, String key) async {
   String url = panelURL + 'api/client/servers/' + serverID + '/power';
   try {

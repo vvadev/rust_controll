@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 import 'sharedPref.dart';
 import 'class_server_info.dart';
 
+/*
+
+  Demo экран для тестирования работы с сохраненным файлом
+
+  приложение не имеет важных зависимойтей от этого файла и он может быть удален при необходимости
+
+*/
+
 class Demo extends StatefulWidget {
   const Demo({Key? key}) : super(key: key);
 

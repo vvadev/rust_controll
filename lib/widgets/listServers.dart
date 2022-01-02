@@ -65,6 +65,7 @@ class _CustomCarouselFB2State extends State<CustomCarouselFB2> {
   late PageController _pageController;
   int _position = 0;
 
+  // создание массива карточек серверов
   loadServers() async {
     var obg = await loadSharedPrefsAllServers();
     print(obg);
