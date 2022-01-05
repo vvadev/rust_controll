@@ -142,7 +142,7 @@ deleteFiles(String panelURL, String serverID, String apikey, String path,
   }
 }
 
-SFTPdeleteFiles(String path, String fileName) async {
+SFTPdeleteFiles(String path) async {
   var client2 = new SSHClient(
       host: "eu-node-2.alkad.org",
       port: 2022,
@@ -154,7 +154,7 @@ SFTPdeleteFiles(String path, String fileName) async {
     if (result == "session_connected") {
       result = await client2.connectSFTP() ?? 'Null result';
       if (result == "sftp_connected") {
-        print(await client2.sftpRm(path + fileName));
+        print(await client2.sftpRm(path));
       }
     }
   } on PlatformException catch (e) {
@@ -186,10 +186,16 @@ SFTPGetFiles(String path) async {
   }
 }
 
+autoWipe(Server server) async {
+  List files = server.autoWipe.split('\n');
+  for (var file in files) {
+    print(file);
+    await SFTPdeleteFiles(file);
+  }
+}
+
 Future<void> globalWipe(Server server) async {
-  print('start Global Wipe');
   await stopServer(server.panelAddress, server.serverID, server.apiKey);
-  print("stopping complite");
   sleep(const Duration(seconds: 10));
 
   // Удаление всех файлов из папки rust
@@ -201,11 +207,13 @@ Future<void> globalWipe(Server server) async {
     if (fileExtension.length > 4) {
       if ((fileExtension.substring(fileExtension.length - 4) == ".sav") ||
           (fileExtension.substring(fileExtension.length - 3) == ".db")) {
-        await SFTPdeleteFiles("/server/rust/", fileExtension);
+        await SFTPdeleteFiles("/server/rust/" + fileExtension);
       }
     }
   }
-  print('Выполнено удаление файлов из папки rust');
+
+  // автовайп
+  await autoWipe(server);
   sleep(const Duration(seconds: 10));
   //startServer(server.panelAddress, server.serverID, server.apiKey);
 }
