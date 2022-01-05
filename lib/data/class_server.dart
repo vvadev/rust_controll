@@ -4,6 +4,10 @@ class Server {
   String serverID = '';
   String apiKey = '';
   String autoWipe = '';
+  String sftpHost = '';
+  int port = 22;
+  String userName = '';
+  String password = '';
 
   Server({
     this.serverName = "",
@@ -11,6 +15,10 @@ class Server {
     this.serverID = "",
     this.apiKey = "",
     this.autoWipe = "",
+    this.sftpHost = "",
+    this.port = 22,
+    this.userName = '',
+    this.password = '',
   });
 
   Server.fromJson(Map<String, dynamic> json) {
@@ -19,6 +27,10 @@ class Server {
     serverID = json["server id"];
     apiKey = json["apikey"];
     autoWipe = json["auto wipe"];
+    sftpHost = json["sftp host"];
+    port = json["port"];
+    userName = json["username"];
+    password = json["password"];
   }
 
   Map<String, dynamic> toJson() => {
@@ -27,5 +39,9 @@ class Server {
         'server id': serverID,
         'apikey': apiKey,
         'auto wipe': autoWipe,
+        "sftp host": sftpHost,
+        "port": port,
+        "username": userName,
+        "password": password,
       };
 }
