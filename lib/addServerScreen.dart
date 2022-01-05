@@ -230,6 +230,167 @@ class _AddServerScreenState extends State<AddServerScreen> {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
+                color: Colors.green,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(20),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.greenAccent.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 6,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Container(
+                      height: 100,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(top: 15, left: 20),
+                            child: Text(
+                              "SFTP Host",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10, left: 20, right: 20),
+                            child: TextField(
+                              cursorColor: Colors.white,
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                              decoration: const InputDecoration(
+                                hintText: "example.com",
+                                hintStyle: TextStyle(color: Colors.white30),
+                              ),
+                              onChanged: (text) {
+                                serverSave.sftpHost = text;
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    new Divider(),
+                    Container(
+                      height: 100,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(top: 15, left: 20),
+                            child: Text(
+                              "Port",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10, left: 20, right: 20),
+                            child: TextField(
+                              keyboardType: TextInputType.number,
+                              cursorColor: Colors.white,
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                              decoration: const InputDecoration(
+                                hintText: "22",
+                                hintStyle: TextStyle(color: Colors.white30),
+                              ),
+                              onChanged: (text) {
+                                serverSave.port = int.parse(text);
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    new Divider(),
+                    Container(
+                      height: 100,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(top: 15, left: 20),
+                            child: Text(
+                              "Username",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10, left: 20, right: 20),
+                            child: TextField(
+                              cursorColor: Colors.white,
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                              decoration: const InputDecoration(
+                                hintText: "username",
+                                hintStyle: TextStyle(color: Colors.white30),
+                              ),
+                              onChanged: (text) {
+                                serverSave.userName = text;
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    new Divider(),
+                    Container(
+                      height: 100,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(top: 15, left: 20),
+                            child: Text(
+                              "Password",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10, left: 20, right: 20),
+                            child: TextField(
+                              cursorColor: Colors.white,
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                              decoration: const InputDecoration(
+                                hintText: "Your password",
+                                hintStyle: TextStyle(color: Colors.white30),
+                              ),
+                              onChanged: (text) {
+                                serverSave.password = text;
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 15),
+            Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
                 color: Colors.orangeAccent,
                 borderRadius: const BorderRadius.all(
                   Radius.circular(20),
