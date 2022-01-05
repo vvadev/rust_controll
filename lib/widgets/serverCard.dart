@@ -90,7 +90,6 @@ class _ServerCardState extends State<ServerCard> {
             child: ListView(
               children: [
                 Container(
-                    height: 300,
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: Colors.blueAccent,
@@ -110,6 +109,13 @@ class _ServerCardState extends State<ServerCard> {
                       padding: EdgeInsets.all(20),
                       child: Column(
                         children: [
+                          const Text(
+                            "Info",
+                            style: TextStyle(
+                              fontSize: 25,
+                              color: Colors.white,
+                            ),
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -161,15 +167,27 @@ class _ServerCardState extends State<ServerCard> {
                             height: 15,
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text(
-                                serverload.autoWipe,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                ),
+                              Column(
+                                // mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    "Auto Wipe Files:",
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    serverload.autoWipe,
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -182,16 +200,15 @@ class _ServerCardState extends State<ServerCard> {
                     )),
                 const SizedBox(height: 10),
                 Container(
-                    height: 300,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Colors.blueAccent,
+                      color: Colors.redAccent,
                       borderRadius: const BorderRadius.all(
                         Radius.circular(20),
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.blue.withOpacity(0.5),
+                          color: Colors.red.withOpacity(0.5),
                           spreadRadius: 2,
                           blurRadius: 6,
                           offset: const Offset(0, 3),
@@ -202,20 +219,234 @@ class _ServerCardState extends State<ServerCard> {
                       padding: EdgeInsets.all(20),
                       child: Column(
                         children: [
-                          TextButton(
-                            onPressed: () => globalWipe(serverload),
-                            child: const Text(
-                              "Start",
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                              ),
+                          const Text(
+                            "Functions",
+                            style: TextStyle(
+                              fontSize: 25,
+                              color: Colors.white,
                             ),
                           ),
+                          const SizedBox(height: 10),
+                          DecoratedBox(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.green,
+                              ),
+                              child: ElevatedButton(
+                                  style: ButtonStyle(
+                                      elevation: MaterialStateProperty.all(0),
+                                      alignment: Alignment.center,
+                                      padding: MaterialStateProperty.all(
+                                          const EdgeInsets.symmetric(
+                                              vertical: 10, horizontal: 112)),
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.transparent),
+                                      shape: MaterialStateProperty.all(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
+                                      )),
+                                  onPressed: () {
+                                    startServer(serverload.panelAddress,
+                                        serverload.serverID, serverload.apiKey);
+                                  },
+                                  child: const Text(
+                                    "Start",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 24),
+                                  ))),
+                          const SizedBox(height: 10),
+                          DecoratedBox(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.lightBlue,
+                              ),
+                              child: ElevatedButton(
+                                  style: ButtonStyle(
+                                      elevation: MaterialStateProperty.all(0),
+                                      alignment: Alignment.center,
+                                      padding: MaterialStateProperty.all(
+                                          const EdgeInsets.symmetric(
+                                              vertical: 10, horizontal: 100)),
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.transparent),
+                                      shape: MaterialStateProperty.all(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
+                                      )),
+                                  onPressed: () {
+                                    restartServer(serverload.panelAddress,
+                                        serverload.serverID, serverload.apiKey);
+                                  },
+                                  child: const Text(
+                                    "Restart",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 24),
+                                  ))),
+                          const SizedBox(height: 10),
+                          DecoratedBox(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.orange,
+                              ),
+                              child: ElevatedButton(
+                                  style: ButtonStyle(
+                                      elevation: MaterialStateProperty.all(0),
+                                      alignment: Alignment.center,
+                                      padding: MaterialStateProperty.all(
+                                          const EdgeInsets.symmetric(
+                                              vertical: 10, horizontal: 115)),
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.transparent),
+                                      shape: MaterialStateProperty.all(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
+                                      )),
+                                  onPressed: () {
+                                    restartServer(serverload.panelAddress,
+                                        serverload.serverID, serverload.apiKey);
+                                  },
+                                  child: const Text(
+                                    "Stop",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 24),
+                                  ))),
+                          const SizedBox(height: 10),
+                          DecoratedBox(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.grey,
+                              ),
+                              child: ElevatedButton(
+                                  style: ButtonStyle(
+                                      elevation: MaterialStateProperty.all(0),
+                                      alignment: Alignment.center,
+                                      padding: MaterialStateProperty.all(
+                                          const EdgeInsets.symmetric(
+                                              vertical: 10, horizontal: 122)),
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.transparent),
+                                      shape: MaterialStateProperty.all(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
+                                      )),
+                                  onPressed: () {
+                                    killServer(serverload.panelAddress,
+                                        serverload.serverID, serverload.apiKey);
+                                  },
+                                  child: const Text(
+                                    "Kill",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 24),
+                                  ))),
                           const Divider(
                             color: Colors.white,
                             height: 15,
                           ),
+                          const Text(
+                            "Wipes",
+                            style: TextStyle(
+                              fontSize: 25,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          DecoratedBox(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.lightGreen,
+                              ),
+                              child: ElevatedButton(
+                                  style: ButtonStyle(
+                                      elevation: MaterialStateProperty.all(0),
+                                      alignment: Alignment.center,
+                                      padding: MaterialStateProperty.all(
+                                          const EdgeInsets.symmetric(
+                                              vertical: 10, horizontal: 92)),
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.transparent),
+                                      shape: MaterialStateProperty.all(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
+                                      )),
+                                  onPressed: () {
+                                    // restartServer(serverload.panelAddress,
+                                    //     serverload.serverID, serverload.apiKey);
+                                  },
+                                  child: const Text(
+                                    "Standart",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 24),
+                                  ))),
+                          const SizedBox(height: 10),
+                          DecoratedBox(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.orangeAccent,
+                              ),
+                              child: ElevatedButton(
+                                  style: ButtonStyle(
+                                      elevation: MaterialStateProperty.all(0),
+                                      alignment: Alignment.center,
+                                      padding: MaterialStateProperty.all(
+                                          const EdgeInsets.symmetric(
+                                              vertical: 10, horizontal: 104)),
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.transparent),
+                                      shape: MaterialStateProperty.all(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
+                                      )),
+                                  onPressed: () {
+                                    // restartServer(serverload.panelAddress,
+                                    //     serverload.serverID, serverload.apiKey);
+                                  },
+                                  child: const Text(
+                                    "Global",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 24),
+                                  ))),
+                          const SizedBox(height: 10),
+                          DecoratedBox(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.lightBlue,
+                              ),
+                              child: ElevatedButton(
+                                  style: ButtonStyle(
+                                      elevation: MaterialStateProperty.all(0),
+                                      alignment: Alignment.center,
+                                      padding: MaterialStateProperty.all(
+                                          const EdgeInsets.symmetric(
+                                              vertical: 10, horizontal: 86)),
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.transparent),
+                                      shape: MaterialStateProperty.all(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
+                                      )),
+                                  onPressed: () {
+                                    // restartServer(serverload.panelAddress,
+                                    //     serverload.serverID, serverload.apiKey);
+                                  },
+                                  child: const Text(
+                                    "AutoWipe",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 24),
+                                  ))),
                         ],
                       ),
                     )),

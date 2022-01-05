@@ -34,7 +34,6 @@ class _DemoState extends State<Demo> {
         serverload = server;
       });
     } catch (Excepetion) {
-      print(Excepetion);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: new Text("Nothing found!"),
           duration: const Duration(milliseconds: 500)));

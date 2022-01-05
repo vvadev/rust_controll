@@ -16,7 +16,7 @@ class SharedPref {
   readServer(String key) async {
     final prefs = await SharedPreferences.getInstance();
     final jsonSev = json.decode(prefs.getString("servers") ?? "");
-    print(jsonSev);
+    // print(jsonSev);
     return jsonSev['list']['$key'];
   }
 
@@ -24,7 +24,7 @@ class SharedPref {
   readAllServers() async {
     final prefs = await SharedPreferences.getInstance();
     final jsonSev = json.decode(prefs.getString("servers") ?? "");
-    print(jsonSev);
+    // print(jsonSev);
     return jsonSev['list'];
   }
 
@@ -44,9 +44,9 @@ class SharedPref {
       jsonSev['count'] = jsonSev['list'].length;
 
       prefs.setString("servers", json.encode(jsonSev));
-      print("saved");
+      // print("saved");
     } catch (Excepetion) {
-      print(Excepetion);
+      // print(Excepetion);
 
       // создаем пустой список серверов в случае, если он отсутствует
       Map jsonSev = {
@@ -62,7 +62,7 @@ class SharedPref {
 
   // удаление сервера по его id
   removeServer(String key) async {
-    print("startRemoving");
+    // print("startRemoving");
     final prefs = await SharedPreferences.getInstance();
 
     // получаем список всех серверов и удаляем из него сервер с переданным id

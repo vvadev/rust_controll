@@ -53,7 +53,6 @@ class _CustomCarouselFB2State extends State<CustomCarouselFB2> {
     try {
       return await sharedPref.readAllServers();
     } catch (Excepetion) {
-      print(Excepetion);
       return {};
     }
   }
@@ -68,7 +67,6 @@ class _CustomCarouselFB2State extends State<CustomCarouselFB2> {
   // создание массива карточек серверов
   loadServers() async {
     var obg = await loadSharedPrefsAllServers();
-    print(obg);
     setState(() {
       cards = [
         for (var i in obg.keys)
@@ -86,8 +84,6 @@ class _CustomCarouselFB2State extends State<CustomCarouselFB2> {
   @override
   void initState() {
     super.initState();
-
-    print("object");
     loadServers();
     _pageController = PageController(initialPage: 0, viewportFraction: .7);
   }
