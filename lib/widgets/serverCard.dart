@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:rust_controll/data/class_server_info.dart';
+import 'package:rust_controll/data/class_server.dart';
 import 'package:rust_controll/data/sharedPref.dart';
 import 'package:rust_controll/mainScreen.dart';
 import 'package:rust_controll/requests/requestsToPanel.dart';

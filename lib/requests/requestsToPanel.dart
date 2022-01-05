@@ -1,11 +1,10 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, unnecessary_new
 
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:rust_controll/data/class_server_info.dart';
+import 'package:rust_controll/data/class_server.dart';
 import 'dart:convert';
 import 'package:ssh2/ssh2.dart';
 

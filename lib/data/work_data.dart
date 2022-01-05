@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rust_controll/requests/requestsToPanel.dart';
 import 'sharedPref.dart';
-import 'class_server_info.dart';
+import 'class_server.dart';
 
 /*
 

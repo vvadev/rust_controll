@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:rust_controll/mainScreen.dart';
 
-import 'data/class_server_info.dart';
+import 'data/class_server.dart';
 import 'data/sharedPref.dart';
 
 class AddServerScreen extends StatefulWidget {

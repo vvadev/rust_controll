@@ -3,7 +3,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
-import 'class_server_info.dart';
+import 'class_server.dart';
 
 class SharedPref {
   // чтение переменной из пямяти по ключу
