@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:rust_controll/data/class_server.dart';
 import 'package:rust_controll/data/sharedPref.dart';
+import 'package:rust_controll/editServerScreen.dart';
 import 'package:rust_controll/mainScreen.dart';
 import 'package:rust_controll/requests/requestsToPanel.dart';
 
@@ -60,7 +61,14 @@ class _ServerCardState extends State<ServerCard> {
         actions: [
           IconButton(
             icon: const Icon(Icons.edit, color: Colors.blue),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => editServerScreen(server: serverload),
+                ),
+              );
+            },
           ),
           IconButton(
             icon: const Icon(Icons.delete, color: Colors.red),

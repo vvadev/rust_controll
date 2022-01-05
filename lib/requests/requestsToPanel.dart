@@ -141,12 +141,13 @@ deleteFiles(String panelURL, String serverID, String apikey, String path,
   }
 }
 
-SFTPdeleteFiles(String path) async {
+SFTPdeleteFiles(Server server, String path) async {
   var client2 = new SSHClient(
-      host: "eu-node-2.alkad.org",
-      port: 2022,
-      username: 'starley.6238dd2d',
-      passwordOrKey: "Vovanchik430/");
+    host: server.sftpHost,
+    port: server.port,
+    username: server.userName,
+    passwordOrKey: server.password,
+  );
   try {
     String? result = '';
     result = await client2.connect();
@@ -189,7 +190,7 @@ autoWipe(Server server) async {
   List files = server.autoWipe.split('\n');
   for (var file in files) {
     print(file);
-    await SFTPdeleteFiles(file);
+    await SFTPdeleteFiles(server, file);
   }
 }
 
@@ -206,7 +207,7 @@ Future<void> globalWipe(Server server) async {
     if (fileExtension.length > 4) {
       if ((fileExtension.substring(fileExtension.length - 4) == ".sav") ||
           (fileExtension.substring(fileExtension.length - 3) == ".db")) {
-        await SFTPdeleteFiles("/server/rust/" + fileExtension);
+        await SFTPdeleteFiles(server, "/server/rust/" + fileExtension);
       }
     }
   }
