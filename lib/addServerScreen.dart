@@ -276,7 +276,7 @@ class _AddServerScreenState extends State<AddServerScreen> {
                                   helperStyle: TextStyle(
                                       color: Colors.white, fontSize: 14)),
                               onChanged: (text) {
-                                // serverName = text;
+                                serverSave.autoWipe = text;
                               },
                             ),
                           )

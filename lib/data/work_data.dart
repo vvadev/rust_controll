@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rust_controll/requests/requestsToPanel.dart';
 import 'sharedPref.dart';
 import 'class_server_info.dart';
 
@@ -124,7 +125,7 @@ class _DemoState extends State<Demo> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    loadSharedPrefs(getId);
+                    globalWipe(serverload);
                   },
                   child: Text('Load', style: TextStyle(fontSize: 20)),
                 ),

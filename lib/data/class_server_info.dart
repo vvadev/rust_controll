@@ -3,12 +3,14 @@ class Server {
   String panelAddress = '';
   String serverID = '';
   String apiKey = '';
+  String autoWipe = '';
 
   Server({
     this.serverName = "",
     this.panelAddress = "",
     this.serverID = "",
     this.apiKey = "",
+    this.autoWipe = "",
   });
 
   Server.fromJson(Map<String, dynamic> json) {
@@ -16,6 +18,7 @@ class Server {
     panelAddress = json["panel address"];
     serverID = json["server id"];
     apiKey = json["apikey"];
+    autoWipe = json["auto wipe"];
   }
 
   Map<String, dynamic> toJson() => {
@@ -23,5 +26,6 @@ class Server {
         'panel address': panelAddress,
         'server id': serverID,
         'apikey': apiKey,
+        'auto wipe': autoWipe,
       };
 }

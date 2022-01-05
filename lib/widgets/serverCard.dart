@@ -148,6 +148,27 @@ class _ServerCardState extends State<ServerCard> {
                               ),
                             ],
                           ),
+                          const Divider(
+                            color: Colors.white,
+                            height: 15,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                serverload.autoWipe,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const Divider(
+                            color: Colors.white,
+                            height: 15,
+                          ),
                         ],
                       ),
                     )),
@@ -174,11 +195,8 @@ class _ServerCardState extends State<ServerCard> {
                       child: Column(
                         children: [
                           TextButton(
-                            onPressed: () {
-                              startServer(serverload.panelAddress,
-                                  serverload.serverID, serverload.apiKey);
-                            },
-                            child: Text(
+                            onPressed: () => globalWipe(serverload),
+                            child: const Text(
                               "Start",
                               style: TextStyle(
                                 fontSize: 20,
