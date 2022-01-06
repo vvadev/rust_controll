@@ -6,6 +6,7 @@ INJECTED from D:\projects\rustControl\rust_controll\android\app\src\main\Android
 INJECTED from D:\projects\rustControl\rust_controll\android\app\src\main\AndroidManifest.xml:1:1-41:12
 MERGED from D:\projects\rustControl\rust_controll\android\app\src\main\AndroidManifest.xml:1:1-41:12
 MERGED from [:shared_preferences_android] D:\projects\rustControl\rust_controll\build\shared_preferences_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:path_provider_android] D:\projects\rustControl\rust_controll\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:ssh2] D:\projects\rustControl\rust_controll\build\ssh2\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\versh\.gradle\caches\transforms-3\b47ffa41fba7604e14106b7724fb50ac\transformed\fragment-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.activity:activity:1.0.0] C:\Users\versh\.gradle\caches\transforms-3\7c4cef84d362f725acefae7d84379b0c\transformed\jetified-activity-1.0.0\AndroidManifest.xml:17:1-24:12
@@ -97,6 +98,8 @@ INJECTED from D:\projects\rustControl\rust_controll\android\app\src\main\Android
 INJECTED from D:\projects\rustControl\rust_controll\android\app\src\main\AndroidManifest.xml
 MERGED from [:shared_preferences_android] D:\projects\rustControl\rust_controll\build\shared_preferences_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:shared_preferences_android] D:\projects\rustControl\rust_controll\build\shared_preferences_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:path_provider_android] D:\projects\rustControl\rust_controll\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:path_provider_android] D:\projects\rustControl\rust_controll\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:ssh2] D:\projects\rustControl\rust_controll\build\ssh2\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:ssh2] D:\projects\rustControl\rust_controll\build\ssh2\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\versh\.gradle\caches\transforms-3\b47ffa41fba7604e14106b7724fb50ac\transformed\fragment-1.1.0\AndroidManifest.xml:20:5-22:41

@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 import 'package:rust_controll/data/class_server.dart';
 import 'dart:convert';
 import 'package:ssh2/ssh2.dart';
@@ -164,12 +165,13 @@ SFTPdeleteFiles(Server server, String path) async {
   }
 }
 
-SFTPGetFiles(String path) async {
+SFTPGetFiles(Server server, String path) async {
   var client2 = new SSHClient(
-      host: "eu-node-2.alkad.org",
-      port: 2022,
-      username: 'starley.6238dd2d',
-      passwordOrKey: "Vovanchik430/");
+    host: server.sftpHost,
+    port: server.port,
+    username: server.userName,
+    passwordOrKey: server.password,
+  );
   try {
     String? result = '';
     result = await client2.connect();
@@ -186,24 +188,116 @@ SFTPGetFiles(String path) async {
   }
 }
 
+SFTPDownloadFile(Server server, String path, String fileName) async {
+  Directory tempDir = await getTemporaryDirectory();
+  String tempPath = tempDir.path;
+  print(tempPath);
+  var client2 = new SSHClient(
+    host: server.sftpHost,
+    port: server.port,
+    username: server.userName,
+    passwordOrKey: server.password,
+  );
+  try {
+    String? result = '';
+    result = await client2.connect();
+    if (result == "session_connected") {
+      result = await client2.connectSFTP() ?? 'Null result';
+      if (result == "sftp_connected") {
+        await client2.sftpDownload(
+          path: '$path/$fileName',
+          toPath: tempPath,
+        );
+        return '$tempPath/$fileName';
+      }
+    }
+  } catch (e) {
+    print('error download');
+  }
+  // await client2.sftpDownload(
+  //     path: path,
+  //     toPath: tempPath,
+  //     callback: (progress) async {
+  //       print(progress);
+  //     });
+}
+
+// функция получения файла настроек с сервера. Возвращает Map
+getServerCFG(Server server) async {
+  var path = await SFTPDownloadFile(server, "", "serverauto.cfg");
+  if (path != '') {
+    final File file = File(path);
+
+    String text = await file.readAsString();
+    List settingsTemp = text.split('\n');
+    Map settings = {};
+    for (int i = 1; i < settingsTemp.length; i++) {
+      if (!settingsTemp[i].isEmpty) {
+        List splited = settingsTemp[i].split(' ');
+        settings[splited[0]] = splited[1];
+      }
+    }
+    await file.delete();
+
+    await setServerCFG(server, settings);
+    return settings;
+  } else {
+    print("error serverCFG");
+  }
+}
+
+setServerCFG(Server server, Map settings) async {
+  Directory tempDir = await getTemporaryDirectory();
+  String tempPath = tempDir.path;
+  final File file = File('$tempPath/serverauto.cfg');
+  for (var i in settings.entries) {
+    await file.writeAsString('\n${i.key} ${i.value}', mode: FileMode.append);
+  }
+
+  var client2 = new SSHClient(
+    host: server.sftpHost,
+    port: server.port,
+    username: server.userName,
+    passwordOrKey: server.password,
+  );
+  try {
+    String? result = '';
+    result = await client2.connect();
+    if (result == "session_connected") {
+      result = await client2.connectSFTP() ?? 'Null result';
+      if (result == "sftp_connected") {
+        await client2.sftpUpload(
+          path: file.path,
+          toPath: "",
+        );
+      }
+    }
+  } catch (e) {
+    print('error download');
+  }
+
+  file.delete();
+  // await file.writeAsString(contents);
+}
+
 autoWipe(Server server) async {
   List files = server.autoWipe.split('\n');
   for (var file in files) {
-    print(file);
+    // print(file);
     await SFTPdeleteFiles(server, file);
   }
 }
 
-Future<void> globalWipe(Server server) async {
+globalWipe(Server server) async {
   await stopServer(server.panelAddress, server.serverID, server.apiKey);
   sleep(const Duration(seconds: 10));
 
   // Удаление всех файлов из папки rust
-  List files = await SFTPGetFiles("/server/rust");
+  List files = await SFTPGetFiles(server, "/server/rust");
 
   for (var file in files) {
     String fileExtension = file["filename"];
-    print(fileExtension);
+    // print(fileExtension);
     if (fileExtension.length > 4) {
       if ((fileExtension.substring(fileExtension.length - 4) == ".sav") ||
           (fileExtension.substring(fileExtension.length - 3) == ".db")) {

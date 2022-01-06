@@ -379,8 +379,7 @@ class _ServerCardState extends State<ServerCard> {
                                                 BorderRadius.circular(15)),
                                       )),
                                   onPressed: () {
-                                    // restartServer(serverload.panelAddress,
-                                    //     serverload.serverID, serverload.apiKey);
+                                    getServerCFG(serverload);
                                   },
                                   child: const Text(
                                     "Standart",
@@ -409,8 +408,7 @@ class _ServerCardState extends State<ServerCard> {
                                                 BorderRadius.circular(15)),
                                       )),
                                   onPressed: () {
-                                    // restartServer(serverload.panelAddress,
-                                    //     serverload.serverID, serverload.apiKey);
+                                    globalWipe(serverload);
                                   },
                                   child: const Text(
                                     "Global",
@@ -439,8 +437,7 @@ class _ServerCardState extends State<ServerCard> {
                                                 BorderRadius.circular(15)),
                                       )),
                                   onPressed: () {
-                                    // restartServer(serverload.panelAddress,
-                                    //     serverload.serverID, serverload.apiKey);
+                                    autoWipe(serverload);
                                   },
                                   child: const Text(
                                     "AutoWipe",
