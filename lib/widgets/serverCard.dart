@@ -6,6 +6,8 @@ import 'package:rust_controll/data/sharedPref.dart';
 import 'package:rust_controll/editServerScreen.dart';
 import 'package:rust_controll/mainScreen.dart';
 import 'package:rust_controll/requests/requestsToPanel.dart';
+import 'package:rust_controll/widgets/editStartupScreen.dart';
+import 'package:rust_controll/widgets/wipeDialog.dart';
 
 class ServerCard extends StatefulWidget {
   const ServerCard({
@@ -30,6 +32,111 @@ class _ServerCardState extends State<ServerCard> {
         serverload = server;
       });
     } catch (Excepetion) {}
+  }
+
+  infoText(String title, String text) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+            fontSize: 24,
+            color: Colors.white,
+          ),
+        ),
+        const Spacer(),
+        Flexible(
+          child: Text(
+            text,
+            textAlign: TextAlign.right,
+            style: const TextStyle(
+              fontSize: 20,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  funcButton(String title, Color color, VoidCallback func) {
+    return DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          color: color,
+        ),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints.tightFor(width: 275, height: 40),
+          child: ElevatedButton(
+              style: ButtonStyle(
+                  elevation: MaterialStateProperty.all(0),
+                  alignment: Alignment.center,
+                  backgroundColor:
+                      MaterialStateProperty.all(Colors.transparent),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                  )),
+              onPressed: func,
+              child: Text(
+                title,
+                style: TextStyle(color: Colors.white, fontSize: 24),
+              )),
+        ));
+  }
+
+  getAlertDialog(String title, String content, VoidCallback func) {
+    return AlertDialog(
+      title: Text(title),
+      titleTextStyle: const TextStyle(
+          fontWeight: FontWeight.bold, color: Colors.black, fontSize: 24),
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20))),
+      content: Text(content),
+      contentTextStyle: const TextStyle(
+        fontSize: 18,
+        color: Colors.black87,
+      ),
+      actionsOverflowButtonSpacing: 20,
+      actions: [
+        ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text(
+            'Back',
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        ),
+        ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+          ),
+          onPressed: func,
+          child: const Text(
+            'Next',
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      ],
+    );
+  }
+
+  getAlertDialodForWipe(String title, int func) {
+    return Dialog(
+      elevation: 0,
+      backgroundColor: Colors.blue,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+      child: wipeDialog(title: title, func: func, server: serverload),
+    );
   }
 
   final String serverIndex;
@@ -84,12 +191,13 @@ class _ServerCardState extends State<ServerCard> {
           ),
         ],
       ),
-      body: Container(
-        child: Padding(
-            padding: EdgeInsets.all(20),
+      body: Stack(
+        children: [
+          Container(
             child: ListView(
               children: [
                 Container(
+                    margin: EdgeInsets.only(top: 20, right: 20, left: 20),
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: Colors.blueAccent,
@@ -101,12 +209,12 @@ class _ServerCardState extends State<ServerCard> {
                           color: Colors.blue.withOpacity(0.5),
                           spreadRadius: 2,
                           blurRadius: 6,
-                          offset: const Offset(0, 3),
+                          offset: const Offset(2, 4),
                         ),
                       ],
                     ),
                     child: Padding(
-                      padding: EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(20),
                       child: Column(
                         children: [
                           const Text(
@@ -116,90 +224,77 @@ class _ServerCardState extends State<ServerCard> {
                               color: Colors.white,
                             ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const Text(
-                                "Server ID",
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              const Spacer(),
-                              Text(
-                                serverload.serverID,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
+                          infoText("Server ID", serverload.serverID),
                           const Divider(
                             color: Colors.white,
                             height: 15,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const Text(
-                                "Panel",
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              const Spacer(),
-                              Text(
-                                serverload.panelAddress,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
+                          infoText("Panel", serverload.panelAddress),
                           const Divider(
                             color: Colors.white,
                             height: 15,
                           ),
-                          Row(
-                            children: [
-                              Column(
-                                // mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    "Auto Wipe Files:",
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      color: Colors.white,
+                          SizedBox(height: 15),
+                          const Text(
+                            "SFTP",
+                            style: TextStyle(
+                              fontSize: 25,
+                              color: Colors.white,
+                            ),
+                          ),
+                          infoText("SFTP Host", serverload.sftpHost),
+                          const Divider(
+                            color: Colors.white,
+                            height: 15,
+                          ),
+                          infoText("Port", serverload.port.toString()),
+                          const Divider(
+                            color: Colors.white,
+                            height: 15,
+                          ),
+                          infoText("Username", serverload.userName),
+                          const Divider(
+                            color: Colors.white,
+                            height: 15,
+                          ),
+                          serverload.autoWipe != ''
+                              ? Row(
+                                  children: [
+                                    Column(
+                                      // mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          "Auto Wipe Files:",
+                                          style: TextStyle(
+                                            fontSize: 24,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Text(
+                                          serverload.autoWipe,
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    serverload.autoWipe,
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          const Divider(
-                            color: Colors.white,
-                            height: 15,
-                          ),
+                                  ],
+                                )
+                              : SizedBox(),
+                          // const Divider(
+                          //   color: Colors.white,
+                          //   height: 15,
+                          // ),
                         ],
                       ),
                     )),
                 const SizedBox(height: 10),
                 Container(
+                    margin: EdgeInsets.only(bottom: 20, right: 20, left: 20),
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: Colors.redAccent,
@@ -208,15 +303,15 @@ class _ServerCardState extends State<ServerCard> {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.red.withOpacity(0.5),
+                          color: Colors.redAccent.withOpacity(0.5),
                           spreadRadius: 2,
                           blurRadius: 6,
-                          offset: const Offset(0, 3),
+                          offset: const Offset(2, 4),
                         ),
                       ],
                     ),
                     child: Padding(
-                      padding: EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(20),
                       child: Column(
                         children: [
                           const Text(
@@ -227,125 +322,61 @@ class _ServerCardState extends State<ServerCard> {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          DecoratedBox(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.green,
-                              ),
-                              child: ElevatedButton(
-                                  style: ButtonStyle(
-                                      elevation: MaterialStateProperty.all(0),
-                                      alignment: Alignment.center,
-                                      padding: MaterialStateProperty.all(
-                                          const EdgeInsets.symmetric(
-                                              vertical: 10, horizontal: 112)),
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.transparent),
-                                      shape: MaterialStateProperty.all(
-                                        RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15)),
-                                      )),
-                                  onPressed: () {
+                          funcButton("Start", Colors.green, () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return getAlertDialog("Warning",
+                                      "Are you sure you want to start the server?",
+                                      () {
                                     startServer(serverload.panelAddress,
                                         serverload.serverID, serverload.apiKey);
-                                  },
-                                  child: const Text(
-                                    "Start",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 24),
-                                  ))),
+                                    Navigator.of(context).pop();
+                                  });
+                                });
+                          }),
                           const SizedBox(height: 10),
-                          DecoratedBox(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.lightBlue,
-                              ),
-                              child: ElevatedButton(
-                                  style: ButtonStyle(
-                                      elevation: MaterialStateProperty.all(0),
-                                      alignment: Alignment.center,
-                                      padding: MaterialStateProperty.all(
-                                          const EdgeInsets.symmetric(
-                                              vertical: 10, horizontal: 100)),
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.transparent),
-                                      shape: MaterialStateProperty.all(
-                                        RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15)),
-                                      )),
-                                  onPressed: () {
+                          funcButton("Restart", Colors.lightBlue, () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return getAlertDialog("Warning",
+                                      "Are you sure you want to restart the server?",
+                                      () {
                                     restartServer(serverload.panelAddress,
                                         serverload.serverID, serverload.apiKey);
-                                  },
-                                  child: const Text(
-                                    "Restart",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 24),
-                                  ))),
+                                    Navigator.of(context).pop();
+                                  });
+                                });
+                          }),
                           const SizedBox(height: 10),
-                          DecoratedBox(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.orange,
-                              ),
-                              child: ElevatedButton(
-                                  style: ButtonStyle(
-                                      elevation: MaterialStateProperty.all(0),
-                                      alignment: Alignment.center,
-                                      padding: MaterialStateProperty.all(
-                                          const EdgeInsets.symmetric(
-                                              vertical: 10, horizontal: 115)),
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.transparent),
-                                      shape: MaterialStateProperty.all(
-                                        RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15)),
-                                      )),
-                                  onPressed: () {
-                                    restartServer(serverload.panelAddress,
+                          funcButton("Stop", Colors.orange, () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return getAlertDialog("Warning",
+                                      "Are you sure you want to stop the server?",
+                                      () {
+                                    stopServer(serverload.panelAddress,
                                         serverload.serverID, serverload.apiKey);
-                                  },
-                                  child: const Text(
-                                    "Stop",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 24),
-                                  ))),
+                                    Navigator.of(context).pop();
+                                  });
+                                });
+                          }),
                           const SizedBox(height: 10),
-                          DecoratedBox(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.grey,
-                              ),
-                              child: ElevatedButton(
-                                  style: ButtonStyle(
-                                      elevation: MaterialStateProperty.all(0),
-                                      alignment: Alignment.center,
-                                      padding: MaterialStateProperty.all(
-                                          const EdgeInsets.symmetric(
-                                              vertical: 10, horizontal: 122)),
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.transparent),
-                                      shape: MaterialStateProperty.all(
-                                        RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15)),
-                                      )),
-                                  onPressed: () {
+                          funcButton("Kill", Colors.grey, () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return getAlertDialog("Warning",
+                                      "Are you sure you want to kill the server?",
+                                      () {
                                     killServer(serverload.panelAddress,
                                         serverload.serverID, serverload.apiKey);
-                                  },
-                                  child: const Text(
-                                    "Kill",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 24),
-                                  ))),
+                                    Navigator.of(context).pop();
+                                  });
+                                });
+                          }),
                           const Divider(
                             color: Colors.white,
                             height: 15,
@@ -358,97 +389,53 @@ class _ServerCardState extends State<ServerCard> {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          DecoratedBox(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.lightGreen,
-                              ),
-                              child: ElevatedButton(
-                                  style: ButtonStyle(
-                                      elevation: MaterialStateProperty.all(0),
-                                      alignment: Alignment.center,
-                                      padding: MaterialStateProperty.all(
-                                          const EdgeInsets.symmetric(
-                                              vertical: 10, horizontal: 92)),
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.transparent),
-                                      shape: MaterialStateProperty.all(
-                                        RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15)),
-                                      )),
-                                  onPressed: () {
-                                    getServerCFG(serverload);
-                                  },
-                                  child: const Text(
-                                    "Standart",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 24),
-                                  ))),
+                          funcButton("Standart", Colors.green, () {
+                            showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return getAlertDialodForWipe("title", 1);
+                                });
+                          }),
                           const SizedBox(height: 10),
-                          DecoratedBox(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.orangeAccent,
-                              ),
-                              child: ElevatedButton(
-                                  style: ButtonStyle(
-                                      elevation: MaterialStateProperty.all(0),
-                                      alignment: Alignment.center,
-                                      padding: MaterialStateProperty.all(
-                                          const EdgeInsets.symmetric(
-                                              vertical: 10, horizontal: 104)),
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.transparent),
-                                      shape: MaterialStateProperty.all(
-                                        RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15)),
-                                      )),
-                                  onPressed: () {
-                                    globalWipe(serverload);
-                                  },
-                                  child: const Text(
-                                    "Global",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 24),
-                                  ))),
+                          funcButton("Global", Colors.orangeAccent, () {
+                            showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return getAlertDialodForWipe("title", 2);
+                                });
+                          }),
                           const SizedBox(height: 10),
-                          DecoratedBox(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.lightBlue,
-                              ),
-                              child: ElevatedButton(
-                                  style: ButtonStyle(
-                                      elevation: MaterialStateProperty.all(0),
-                                      alignment: Alignment.center,
-                                      padding: MaterialStateProperty.all(
-                                          const EdgeInsets.symmetric(
-                                              vertical: 10, horizontal: 86)),
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.transparent),
-                                      shape: MaterialStateProperty.all(
-                                        RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15)),
-                                      )),
-                                  onPressed: () {
-                                    autoWipe(serverload);
-                                  },
-                                  child: const Text(
-                                    "AutoWipe",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 24),
-                                  ))),
+                          funcButton("AutoWipe", Colors.lightBlue, () {
+                            showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return getAlertDialodForWipe("title", 3);
+                                });
+                          }),
+                          const SizedBox(height: 10),
+                          funcButton("Delete server.cfg", Colors.grey, () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return getAlertDialog("Warning",
+                                      "Are you sure you want to delete server.cfg",
+                                      () {
+                                    SFTPdeleteFiles(serverload,
+                                        "server/rust/cfg/server.cfg");
+                                    Navigator.of(context).pop();
+                                  });
+                                });
+                          }),
                         ],
                       ),
                     )),
               ],
-            )),
+            ),
+          ),
+        ],
       ),
     );
   }

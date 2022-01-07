@@ -79,7 +79,7 @@ class _AddServerScreenState extends State<AddServerScreen> {
                     color: Colors.blue.withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 6,
-                    offset: const Offset(0, 3),
+                    offset: const Offset(2, 3),
                   ),
                 ],
               ),
@@ -239,7 +239,7 @@ class _AddServerScreenState extends State<AddServerScreen> {
                     color: Colors.greenAccent.withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 6,
-                    offset: const Offset(0, 3),
+                    offset: const Offset(2, 3),
                   ),
                 ],
               ),
@@ -368,6 +368,9 @@ class _AddServerScreenState extends State<AddServerScreen> {
                             padding: const EdgeInsets.only(
                                 top: 10, left: 20, right: 20),
                             child: TextField(
+                              obscureText: true,
+                              enableSuggestions: false,
+                              autocorrect: false,
                               cursorColor: Colors.white,
                               style:
                                   TextStyle(color: Colors.white, fontSize: 20),
@@ -400,7 +403,7 @@ class _AddServerScreenState extends State<AddServerScreen> {
                     color: Colors.orange.withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 6,
-                    offset: const Offset(0, 3),
+                    offset: const Offset(2, 3),
                   ),
                 ],
               ),

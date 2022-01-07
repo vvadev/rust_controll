@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
@@ -155,7 +156,7 @@ SFTPdeleteFiles(Server server, String path) async {
     if (result == "session_connected") {
       result = await client2.connectSFTP() ?? 'Null result';
       if (result == "sftp_connected") {
-        print(await client2.sftpRm(path));
+        await client2.sftpRm(path);
       }
     }
   } on PlatformException catch (e) {
@@ -239,58 +240,98 @@ getServerCFG(Server server) async {
     }
     await file.delete();
 
-    await setServerCFG(server, settings);
+    // await setServerCFG(server, settings);
     return settings;
   } else {
     print("error serverCFG");
   }
 }
 
-setServerCFG(Server server, Map settings) async {
-  Directory tempDir = await getTemporaryDirectory();
-  String tempPath = tempDir.path;
-  final File file = File('$tempPath/serverauto.cfg');
-  for (var i in settings.entries) {
-    await file.writeAsString('\n${i.key} ${i.value}', mode: FileMode.append);
-  }
-
-  var client2 = new SSHClient(
-    host: server.sftpHost,
-    port: server.port,
-    username: server.userName,
-    passwordOrKey: server.password,
-  );
-  try {
-    String? result = '';
-    result = await client2.connect();
-    if (result == "session_connected") {
-      result = await client2.connectSFTP() ?? 'Null result';
-      if (result == "sftp_connected") {
-        await client2.sftpUpload(
-          path: file.path,
-          toPath: "",
-        );
-      }
+setServerCFG(Server server, int worldType, String worldSeed, String worldSize,
+    String worldURL, int func) async {
+  if ((worldSize == '') &&
+      (worldSeed == '') &&
+      (worldURL == '') &&
+      (worldType == 1)) {
+  } else {
+    Directory tempDir = await getTemporaryDirectory();
+    String tempPath = tempDir.path;
+    final File file = File('$tempPath/server.cfg');
+    String level = '';
+    if (worldType == 2) {
+      level = 'Barren';
+    } else if (worldType == 3) {
+      level = 'HapisIsland';
+    } else {
+      level = 'Procedural Map';
     }
-  } catch (e) {
-    print('error download');
-  }
+    if (worldSize == '') {
+      worldSize == 4000;
+    }
+    if (worldSeed == '') {
+      worldSeed == '1111';
+    }
+    String settings =
+        'server.seed "$worldSeed"\nserver.worldsize "$worldSize"\nserver.level "$level"\nserver.levelurl "$worldURL"';
+    file.writeAsString(settings);
 
-  file.delete();
-  // await file.writeAsString(contents);
+    var client2 = new SSHClient(
+      host: server.sftpHost,
+      port: server.port,
+      username: server.userName,
+      passwordOrKey: server.password,
+    );
+    try {
+      String? result = '';
+      result = await client2.connect();
+      if (result == "session_connected") {
+        result = await client2.connectSFTP() ?? 'Null result';
+        if (result == "sftp_connected") {
+          await client2.sftpUpload(
+            path: file.path,
+            toPath: "server/rust/cfg",
+          );
+        }
+      }
+    } catch (e) {
+      print('error download');
+    }
+
+    file.delete();
+    await () {
+      func;
+    };
+    print("done");
+  }
+  switch (func) {
+    case 1:
+      await standartWipe(server);
+      break;
+    case 2:
+      await globalWipe(server);
+      break;
+    case 3:
+      await autoWipe(server);
+      break;
+    default:
+      null;
+  }
 }
 
 autoWipe(Server server) async {
-  List files = server.autoWipe.split('\n');
-  for (var file in files) {
-    // print(file);
-    await SFTPdeleteFiles(server, file);
+  if (server.autoWipe != '') {
+    List files = server.autoWipe.split('\n');
+    for (var file in files) {
+      // print(file);
+      await SFTPdeleteFiles(server, file);
+    }
   }
 }
 
 globalWipe(Server server) async {
+  // print("global");
   await stopServer(server.panelAddress, server.serverID, server.apiKey);
-  sleep(const Duration(seconds: 10));
+  sleep(const Duration(seconds: 5));
 
   // Удаление всех файлов из папки rust
   List files = await SFTPGetFiles(server, "/server/rust");
@@ -308,6 +349,33 @@ globalWipe(Server server) async {
 
   // автовайп
   await autoWipe(server);
-  sleep(const Duration(seconds: 10));
-  //startServer(server.panelAddress, server.serverID, server.apiKey);
+  sleep(const Duration(seconds: 3));
+  startServer(server.panelAddress, server.serverID, server.apiKey);
+}
+
+standartWipe(Server server) async {
+  // print("standart");
+  await stopServer(server.panelAddress, server.serverID, server.apiKey);
+  sleep(const Duration(seconds: 5));
+
+  // Удаление файлов из папки rust
+  List files = await SFTPGetFiles(server, "/server/rust");
+
+  for (var file in files) {
+    String fileExtension = file["filename"];
+    // print(fileExtension);
+    if (fileExtension.length > 17) {
+      print(fileExtension.substring(0, 17));
+      if (((fileExtension.substring(fileExtension.length - 4) == ".sav") ||
+              (fileExtension.substring(fileExtension.length - 3) == ".db")) &&
+          (fileExtension.substring(0, 17) != 'player.blueprints')) {
+        await SFTPdeleteFiles(server, "/server/rust/" + fileExtension);
+      }
+    }
+  }
+
+  // автовайп
+  await autoWipe(server);
+  sleep(const Duration(seconds: 3));
+  startServer(server.panelAddress, server.serverID, server.apiKey);
 }

@@ -84,7 +84,7 @@ class _editServerScreenState extends State<editServerScreen> {
                     color: Colors.blue.withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 6,
-                    offset: const Offset(0, 3),
+                    offset: const Offset(2, 3),
                   ),
                 ],
               ),
@@ -248,7 +248,7 @@ class _editServerScreenState extends State<editServerScreen> {
                     color: Colors.greenAccent.withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 6,
-                    offset: const Offset(0, 3),
+                    offset: const Offset(2, 3),
                   ),
                 ],
               ),
@@ -380,6 +380,9 @@ class _editServerScreenState extends State<editServerScreen> {
                             padding: const EdgeInsets.only(
                                 top: 10, left: 20, right: 20),
                             child: TextFormField(
+                              obscureText: true,
+                              enableSuggestions: false,
+                              autocorrect: false,
                               initialValue: server.password,
                               cursorColor: Colors.white,
                               style:
@@ -413,7 +416,7 @@ class _editServerScreenState extends State<editServerScreen> {
                     color: Colors.orange.withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 6,
-                    offset: const Offset(0, 3),
+                    offset: const Offset(2, 3),
                   ),
                 ],
               ),
