@@ -5,7 +5,7 @@ class Server {
   String apiKey = '';
   String autoWipe = '';
   String sftpHost = '';
-  int port = 22;
+  int port = 2022;
   String userName = '';
   String password = '';
 

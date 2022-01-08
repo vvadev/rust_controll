@@ -386,7 +386,7 @@ standartWipe(Server server) async {
     String fileExtension = file["filename"];
     // print(fileExtension);
     if (fileExtension.length > 17) {
-      print(fileExtension.substring(0, 17));
+      // print(fileExtension.substring(0, 17));
       if (((fileExtension.substring(fileExtension.length - 4) == ".sav") ||
               (fileExtension.substring(fileExtension.length - 3) == ".db")) &&
           (fileExtension.substring(0, 17) != 'player.blueprints')) {

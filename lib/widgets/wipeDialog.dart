@@ -79,7 +79,7 @@ class _wipeDialogState extends State<wipeDialog> {
                         ),
                       ),
                       Container(
-                        height: 410,
+                        height: 310,
                         child: ListView(
                           children: [
                             Container(
