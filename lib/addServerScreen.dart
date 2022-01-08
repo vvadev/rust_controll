@@ -372,8 +372,8 @@ class _AddServerScreenState extends State<AddServerScreen> {
                               enableSuggestions: false,
                               autocorrect: false,
                               cursorColor: Colors.white,
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 20),
                               decoration: const InputDecoration(
                                 hintText: "Your password",
                                 hintStyle: TextStyle(color: Colors.white30),

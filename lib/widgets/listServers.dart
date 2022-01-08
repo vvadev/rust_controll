@@ -176,7 +176,12 @@ class CardFb1 extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Image.network(imageUrl, height: 90, fit: BoxFit.cover),
+            // Image.network(imageUrl, height: 90, fit: BoxFit.cover),
+            SizedBox(
+              height: 100,
+              width: 100,
+              child: Image.asset("assets/images/background.jpg"),
+            ),
             const SizedBox(
               height: 15,
             ),
