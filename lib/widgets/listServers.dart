@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:rust_controll/data/class_server.dart';
 import 'package:rust_controll/data/sharedPref.dart';
+import 'package:rust_controll/requests/requestsToPanel.dart';
 import 'package:rust_controll/widgets/serverCard.dart';
 
 class ListServers extends StatefulWidget {
@@ -47,6 +48,8 @@ class CustomCarouselFB2 extends StatefulWidget {
 }
 
 class _CustomCarouselFB2State extends State<CustomCarouselFB2> {
+  bool isLoad = false;
+
   loadSharedPrefsAllServers() async {
     SharedPref sharedPref = SharedPref();
     Server serverload = Server();
@@ -55,6 +58,33 @@ class _CustomCarouselFB2State extends State<CustomCarouselFB2> {
     } catch (Excepetion) {
       return {};
     }
+  }
+
+  checkConntection(Map server) async {
+    String status = await statusServer(
+        server['panel address'], server['server id'], server['apikey']);
+    if (status == 'on') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  getCards(var obg) async {
+    List<Widget> loadCards = [];
+    for (var i in obg.keys) {
+      bool status = await checkConntection(obg['$i']);
+      loadCards.add(
+        CardFb1(
+          text: obg['$i']['server name'],
+          serverID: obg['$i']['server id'],
+          imageUrl:
+              "https://pbs.twimg.com/profile_images/798188546968481792/-kMkEAbB.jpg",
+          statusOnline: status,
+        ),
+      );
+    }
+    return loadCards;
   }
 
   List<Widget> cards = [];
@@ -67,17 +97,20 @@ class _CustomCarouselFB2State extends State<CustomCarouselFB2> {
   // создание массива карточек серверов
   loadServers() async {
     var obg = await loadSharedPrefsAllServers();
+    List<Widget> loadCards = await getCards(obg);
     setState(() {
-      cards = [
-        for (var i in obg.keys)
-          CardFb1(
-            text: obg['$i']['server name'],
-            serverID: obg['$i']['server id'],
-            imageUrl:
-                "https://pbs.twimg.com/profile_images/798188546968481792/-kMkEAbB.jpg",
-            statusOnline: true,
-          )
-      ];
+      cards = loadCards;
+      isLoad = true;
+      // cards = [
+      //   for (var i in obg.keys)
+      //     CardFb1(
+      //       text: obg['$i']['server name'],
+      //       serverID: obg['$i']['server id'],
+      //       imageUrl:
+      //           "https://pbs.twimg.com/profile_images/798188546968481792/-kMkEAbB.jpg",
+      //       statusOnline: checkConntection(obg[i]),
+      //     )
+      // ];
     });
   }
 
@@ -90,17 +123,23 @@ class _CustomCarouselFB2State extends State<CustomCarouselFB2> {
 
   @override
   Widget build(BuildContext context) {
-    return PageView.builder(
-        controller: _pageController,
-        itemCount: cards.length,
-        onPageChanged: (int position) {
-          setState(() {
-            _position = position;
-          });
-        },
-        itemBuilder: (BuildContext context, int position) {
-          return imageSlider(position);
-        });
+    return !isLoad
+        ? const Center(
+            child: CircularProgressIndicator(
+              color: Colors.white,
+            ),
+          )
+        : PageView.builder(
+            controller: _pageController,
+            itemCount: cards.length,
+            onPageChanged: (int position) {
+              setState(() {
+                _position = position;
+              });
+            },
+            itemBuilder: (BuildContext context, int position) {
+              return imageSlider(position);
+            });
   }
 
   Widget imageSlider(int position) {

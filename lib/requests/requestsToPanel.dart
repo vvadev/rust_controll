@@ -35,9 +35,9 @@ startServer(String panelURL, String serverID, String apikey) async {
         body: jsonEncode({
           "signal": "start",
         }));
-    print(response.body);
+    // print(response.body);
   } catch (error) {
-    print(error);
+    // print(error);
   }
 }
 
@@ -55,9 +55,9 @@ stopServer(String panelURL, String serverID, String apikey) async {
         body: jsonEncode({
           "signal": "stop",
         }));
-    print(response.body);
+    // print(response.body);
   } catch (error) {
-    print(error);
+    // print(error);
   }
 }
 
@@ -75,9 +75,9 @@ restartServer(String panelURL, String serverID, String apikey) async {
         body: jsonEncode({
           "signal": "restart",
         }));
-    print(response.body);
+    // print(response.body);
   } catch (error) {
-    print(error);
+    // print(error);
   }
 }
 
@@ -95,9 +95,30 @@ killServer(String panelURL, String serverID, String apikey) async {
         body: jsonEncode({
           "signal": "kill",
         }));
-    print(response.body);
+    // print(response.body);
+  } catch (error) {
+    // print(error);
+  }
+}
+
+statusServer(String panelURL, String serverID, String apikey) async {
+  String url = panelURL + 'api/client/servers/' + serverID + '/utilization';
+  try {
+    var response = await http.get(
+      Uri.parse(url),
+      headers: {
+        "Authorization": "Bearer " + apikey,
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "cookie":
+            "pterodactyl_session=eyJpdiI6InhIVXp5ZE43WlMxUU1NQ1pyNWRFa1E9PSIsInZhbHVlIjoiQTNpcE9JV3FlcmZ6Ym9vS0dBTmxXMGtST2xyTFJvVEM5NWVWbVFJSnV6S1dwcTVGWHBhZzdjMHpkN0RNdDVkQiIsIm1hYyI6IjAxYTI5NDY1OWMzNDJlZWU2OTc3ZDYxYzIyMzlhZTFiYWY1ZjgwMjAwZjY3MDU4ZDYwMzhjOTRmYjMzNDliN2YifQ%253D%253D"
+      },
+    );
+    // print(jsonDecode(response.body)['attributes']['state']);
+    return jsonDecode(response.body)['attributes']['state'];
   } catch (error) {
     print(error);
+    return 'error';
   }
 }
 
