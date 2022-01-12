@@ -4,6 +4,7 @@ import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:rust_controll/addServerScreen.dart';
 import 'package:rust_controll/data/work_data.dart';
+import 'package:rust_controll/settingsScreen.dart';
 
 import 'widgets/listServers.dart';
 
@@ -103,6 +104,7 @@ class _MainScreenState extends State<MainScreen> {
   final screen = [
     ListServers(),
     // AddServerScreen(),
+    settingsScreen(),
     Demo(),
     // Center(child: Text('2')),
   ];
