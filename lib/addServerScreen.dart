@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:rust_controll/mainScreen.dart';
+import 'package:rust_controll/theme/theme_provider.dart';
 
 import 'data/class_server.dart';
 import 'data/sharedPref.dart';
@@ -21,22 +22,29 @@ class _AddServerScreenState extends State<AddServerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 1,
         leading: IconButton(
-          icon: const Icon(Icons.keyboard_arrow_left, color: Colors.black),
+          icon: Icon(
+            Icons.keyboard_arrow_left,
+            color: Theme.of(context).iconTheme.color,
+          ),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        title: const Text(
+        title: Text(
           "Add new server",
-          style: TextStyle(color: Colors.black),
+          style: Theme.of(context).textTheme.headline6,
         ),
         actions: [
           Padding(
             padding: EdgeInsets.all(5),
-            child: ElevatedButton(
+            child: IconButton(
+              icon: Icon(
+                Icons.save,
+                color: Theme.of(context).iconTheme.color,
+              ),
               onPressed: () {
                 sharedPref.saveServer(serverSave);
                 Navigator.push(
@@ -47,36 +55,25 @@ class _AddServerScreenState extends State<AddServerScreen> {
                 );
                 // Navigator.pop(context);
               },
-              child: const Icon(Icons.save),
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all(CircleBorder()),
-                backgroundColor:
-                    MaterialStateProperty.all(Colors.blue), // <-- Button color
-                overlayColor:
-                    MaterialStateProperty.resolveWith<Color?>((states) {
-                  if (states.contains(MaterialState.pressed))
-                    return Colors.green; // <-- Splash color
-                }),
-              ),
             ),
           )
         ],
       ),
       body: Container(
-        color: Colors.grey.withOpacity(0.1),
+        color: Theme.of(context).colorScheme.containerBackground,
         child: ListView(
           padding: EdgeInsets.all(20),
           children: [
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.blueAccent,
+                color: Theme.of(context).colorScheme.blueContainer,
                 borderRadius: const BorderRadius.all(
                   Radius.circular(20),
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.blue.withOpacity(0.5),
+                    color: Theme.of(context).colorScheme.blueContainerShadow,
                     spreadRadius: 2,
                     blurRadius: 6,
                     offset: const Offset(2, 3),
@@ -93,12 +90,11 @@ class _AddServerScreenState extends State<AddServerScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Padding(
+                          Padding(
                             padding: EdgeInsets.only(top: 15, left: 20),
                             child: Text(
                               "Server name",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white),
+                              style: Theme.of(context).textTheme.headline3,
                             ),
                           ),
                           Padding(
@@ -127,12 +123,11 @@ class _AddServerScreenState extends State<AddServerScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Padding(
+                          Padding(
                             padding: EdgeInsets.only(top: 15, left: 20),
                             child: Text(
                               "Panel address",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white),
+                              style: Theme.of(context).textTheme.headline3,
                             ),
                           ),
                           Padding(
@@ -161,12 +156,11 @@ class _AddServerScreenState extends State<AddServerScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Padding(
+                          Padding(
                             padding: EdgeInsets.only(top: 15, left: 20),
                             child: Text(
                               "Server ID",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white),
+                              style: Theme.of(context).textTheme.headline3,
                             ),
                           ),
                           Padding(
@@ -195,12 +189,11 @@ class _AddServerScreenState extends State<AddServerScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Padding(
+                          Padding(
                             padding: EdgeInsets.only(top: 15, left: 20),
                             child: Text(
                               "APIKEY",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white),
+                              style: Theme.of(context).textTheme.headline3,
                             ),
                           ),
                           Padding(
@@ -230,13 +223,13 @@ class _AddServerScreenState extends State<AddServerScreen> {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.green,
+                color: Theme.of(context).colorScheme.greenContainer,
                 borderRadius: const BorderRadius.all(
                   Radius.circular(20),
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.greenAccent.withOpacity(0.5),
+                    color: Theme.of(context).colorScheme.greenContainerShadow,
                     spreadRadius: 2,
                     blurRadius: 6,
                     offset: const Offset(2, 3),
@@ -253,12 +246,11 @@ class _AddServerScreenState extends State<AddServerScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Padding(
+                          Padding(
                             padding: EdgeInsets.only(top: 15, left: 20),
                             child: Text(
                               "SFTP Host",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white),
+                              style: Theme.of(context).textTheme.headline3,
                             ),
                           ),
                           Padding(
@@ -287,12 +279,11 @@ class _AddServerScreenState extends State<AddServerScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Padding(
+                          Padding(
                             padding: EdgeInsets.only(top: 15, left: 20),
                             child: Text(
                               "Port",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white),
+                              style: Theme.of(context).textTheme.headline3,
                             ),
                           ),
                           Padding(
@@ -322,12 +313,11 @@ class _AddServerScreenState extends State<AddServerScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Padding(
+                          Padding(
                             padding: EdgeInsets.only(top: 15, left: 20),
                             child: Text(
                               "Username",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white),
+                              style: Theme.of(context).textTheme.headline3,
                             ),
                           ),
                           Padding(
@@ -356,12 +346,11 @@ class _AddServerScreenState extends State<AddServerScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Padding(
+                          Padding(
                             padding: EdgeInsets.only(top: 15, left: 20),
                             child: Text(
                               "Password",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white),
+                              style: Theme.of(context).textTheme.headline3,
                             ),
                           ),
                           Padding(
@@ -394,13 +383,13 @@ class _AddServerScreenState extends State<AddServerScreen> {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.orangeAccent,
+                color: Theme.of(context).colorScheme.orangeContainer,
                 borderRadius: const BorderRadius.all(
                   Radius.circular(20),
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.orange.withOpacity(0.5),
+                    color: Theme.of(context).colorScheme.orangeContainerShadow,
                     spreadRadius: 2,
                     blurRadius: 6,
                     offset: const Offset(2, 3),
@@ -416,12 +405,11 @@ class _AddServerScreenState extends State<AddServerScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Padding(
+                          Padding(
                             padding: EdgeInsets.only(top: 15, left: 20),
                             child: Text(
                               "Auto Wipe Files",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white),
+                              style: Theme.of(context).textTheme.headline3,
                             ),
                           ),
                           Padding(

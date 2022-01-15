@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:rust_controll/data/class_server.dart';
 import 'package:rust_controll/data/sharedPref.dart';
 import 'package:rust_controll/requests/requestsToPanel.dart';
+import 'package:rust_controll/theme/theme_provider.dart';
 import 'package:rust_controll/widgets/serverCard.dart';
 
 class ListServers extends StatefulWidget {
@@ -18,8 +19,9 @@ class _ListServersState extends State<ListServers> {
 
   @override
   Widget build(BuildContext context) {
+    final TextTheme textTheme = Theme.of(context).textTheme;
     return Container(
-      color: Colors.blueGrey,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -27,7 +29,7 @@ class _ListServersState extends State<ListServers> {
           Container(
             child: Text(
               "Servers List",
-              style: TextStyle(fontSize: 30, color: Colors.white),
+              style: Theme.of(context).textTheme.headline1,
             ),
           ),
           Container(
@@ -203,7 +205,9 @@ class CardFb1 extends StatelessWidget {
         height: 330,
         padding: const EdgeInsets.all(30.0),
         decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [Colors.cyan, Colors.white]),
+          // gradient: LinearGradient(colors: [Colors.cyan, Colors.white]),
+          gradient: Theme.of(context).colorScheme.cardGradient,
+          // color: Colors.blueAccent,
           borderRadius: BorderRadius.circular(12.5),
           boxShadow: [
             BoxShadow(
@@ -219,18 +223,14 @@ class CardFb1 extends StatelessWidget {
             SizedBox(
               height: 100,
               width: 100,
-              child: Image.asset("assets/images/background.jpg"),
+              child: Image.asset("assets/images/background.png"),
             ),
             const SizedBox(
               height: 15,
             ),
             Text(text,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                )),
+                style: Theme.of(context).textTheme.headline2),
             const Spacer(),
             Container(
               height: 30,

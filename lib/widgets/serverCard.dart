@@ -6,6 +6,7 @@ import 'package:rust_controll/data/sharedPref.dart';
 import 'package:rust_controll/editServerScreen.dart';
 import 'package:rust_controll/mainScreen.dart';
 import 'package:rust_controll/requests/requestsToPanel.dart';
+import 'package:rust_controll/theme/theme_provider.dart';
 import 'package:rust_controll/widgets/editStartupScreen.dart';
 import 'package:rust_controll/widgets/wipeDialog.dart';
 
@@ -41,20 +42,14 @@ class _ServerCardState extends State<ServerCard> {
       children: [
         Text(
           title,
-          style: const TextStyle(
-            fontSize: 24,
-            color: Colors.white,
-          ),
+          style: Theme.of(context).textTheme.headline4,
         ),
         const Spacer(),
         Flexible(
           child: Text(
             text,
             textAlign: TextAlign.right,
-            style: const TextStyle(
-              fontSize: 20,
-              color: Colors.white,
-            ),
+            style: Theme.of(context).textTheme.headline3,
           ),
         ),
       ],
@@ -82,7 +77,7 @@ class _ServerCardState extends State<ServerCard> {
               onPressed: func,
               child: Text(
                 title,
-                style: TextStyle(color: Colors.white, fontSize: 24),
+                style: Theme.of(context).textTheme.headline4,
               )),
         ));
   }
@@ -153,17 +148,18 @@ class _ServerCardState extends State<ServerCard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).primaryColor,
         elevation: 1,
         leading: IconButton(
-          icon: const Icon(Icons.keyboard_arrow_left, color: Colors.black),
+          icon: Icon(Icons.keyboard_arrow_left,
+              color: Theme.of(context).iconTheme.color),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
         title: Text(
           serverload.serverName,
-          style: const TextStyle(color: Colors.black),
+          style: Theme.of(context).textTheme.headline6,
         ),
         actions: [
           IconButton(
@@ -200,13 +196,14 @@ class _ServerCardState extends State<ServerCard> {
                     margin: EdgeInsets.only(top: 20, right: 20, left: 20),
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Colors.blueAccent,
+                      color: Theme.of(context).colorScheme.blueContainer,
                       borderRadius: const BorderRadius.all(
                         Radius.circular(20),
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.blue.withOpacity(0.5),
+                          color:
+                              Theme.of(context).colorScheme.blueContainerShadow,
                           spreadRadius: 2,
                           blurRadius: 6,
                           offset: const Offset(2, 4),
@@ -217,12 +214,9 @@ class _ServerCardState extends State<ServerCard> {
                       padding: const EdgeInsets.all(20),
                       child: Column(
                         children: [
-                          const Text(
+                          Text(
                             "Info",
-                            style: TextStyle(
-                              fontSize: 25,
-                              color: Colors.white,
-                            ),
+                            style: Theme.of(context).textTheme.headline2,
                           ),
                           infoText("Server ID", serverload.serverID),
                           const Divider(
@@ -235,12 +229,9 @@ class _ServerCardState extends State<ServerCard> {
                             height: 15,
                           ),
                           SizedBox(height: 15),
-                          const Text(
+                          Text(
                             "SFTP",
-                            style: TextStyle(
-                              fontSize: 25,
-                              color: Colors.white,
-                            ),
+                            style: Theme.of(context).textTheme.headline2,
                           ),
                           infoText("SFTP Host", serverload.sftpHost),
                           const Divider(
@@ -297,13 +288,16 @@ class _ServerCardState extends State<ServerCard> {
                     margin: EdgeInsets.only(bottom: 20, right: 20, left: 20),
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Colors.redAccent,
+                      // color: Colors.redAccent,
+                      color: Theme.of(context).colorScheme.orangeContainer,
                       borderRadius: const BorderRadius.all(
                         Radius.circular(20),
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.redAccent.withOpacity(0.5),
+                          color: Theme.of(context)
+                              .colorScheme
+                              .orangeContainerShadow,
                           spreadRadius: 2,
                           blurRadius: 6,
                           offset: const Offset(2, 4),
@@ -314,12 +308,9 @@ class _ServerCardState extends State<ServerCard> {
                       padding: const EdgeInsets.all(20),
                       child: Column(
                         children: [
-                          const Text(
+                          Text(
                             "Functions",
-                            style: TextStyle(
-                              fontSize: 25,
-                              color: Colors.white,
-                            ),
+                            style: Theme.of(context).textTheme.headline2,
                           ),
                           const SizedBox(height: 10),
                           funcButton("Start", Colors.green, () {
@@ -350,7 +341,7 @@ class _ServerCardState extends State<ServerCard> {
                                 });
                           }),
                           const SizedBox(height: 10),
-                          funcButton("Stop", Colors.orange, () {
+                          funcButton("Stop", Colors.red, () {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -381,12 +372,9 @@ class _ServerCardState extends State<ServerCard> {
                             color: Colors.white,
                             height: 15,
                           ),
-                          const Text(
+                          Text(
                             "Wipes",
-                            style: TextStyle(
-                              fontSize: 25,
-                              color: Colors.white,
-                            ),
+                            style: Theme.of(context).textTheme.headline2,
                           ),
                           const SizedBox(height: 10),
                           funcButton("Standart", Colors.green, () {
@@ -398,7 +386,7 @@ class _ServerCardState extends State<ServerCard> {
                                 });
                           }),
                           const SizedBox(height: 10),
-                          funcButton("Global", Colors.orangeAccent, () {
+                          funcButton("Global", Colors.red, () {
                             showDialog(
                                 barrierDismissible: false,
                                 context: context,

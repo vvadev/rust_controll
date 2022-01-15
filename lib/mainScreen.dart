@@ -2,9 +2,12 @@
 
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rust_controll/addServerScreen.dart';
+import 'package:rust_controll/data/saveTheme.dart';
 import 'package:rust_controll/data/work_data.dart';
 import 'package:rust_controll/settingsScreen.dart';
+import 'package:rust_controll/theme/theme_provider.dart';
 
 import 'widgets/listServers.dart';
 
@@ -21,6 +24,8 @@ class _MainScreenState extends State<MainScreen> {
   bool connection = false;
 
   checkInternetConnection() async {
+    final provider = Provider.of<ThemeProvider>(context, listen: false);
+    provider.toggleTheme(await loadThemeMode());
     bool result = await DataConnectionChecker().hasConnection;
     if (result == true) {
       setState(() {
@@ -114,11 +119,6 @@ class _MainScreenState extends State<MainScreen> {
     Size size = MediaQuery.of(context).size;
     double height = 56;
 
-    final primaryColor = Colors.blue;
-    final secondaryColor = Colors.black54;
-    final accentColor = const Color(0xffffffff);
-    final backgroundColor = Colors.white;
-
     return !connection
         ? checkInternetConnectionScreen()
         : Scaffold(
@@ -131,13 +131,14 @@ class _MainScreenState extends State<MainScreen> {
                 children: [
                   CustomPaint(
                     size: Size(size.width, height + 6),
-                    painter:
-                        BottomNavCurvePainter(backgroundColor: backgroundColor),
+                    painter: BottomNavCurvePainter(
+                        backgroundColor: Theme.of(context).primaryColor),
                   ),
                   Center(
                     heightFactor: 0.6,
                     child: FloatingActionButton(
-                        backgroundColor: primaryColor,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.mainButtonSellected,
                         child: Icon(Icons.add_outlined),
                         elevation: 0.1,
                         onPressed: () {
@@ -163,8 +164,10 @@ class _MainScreenState extends State<MainScreen> {
                               _selectedIndex = 0;
                             });
                           },
-                          defaultColor: secondaryColor,
-                          selectedColor: primaryColor,
+                          defaultColor:
+                              Theme.of(context).colorScheme.mainButtonDefault,
+                          selectedColor:
+                              Theme.of(context).colorScheme.mainButtonSellected,
                         ),
                         SizedBox(),
                         NavBarIcon(
@@ -176,8 +179,10 @@ class _MainScreenState extends State<MainScreen> {
                               _selectedIndex = 1;
                             });
                           },
-                          selectedColor: primaryColor,
-                          defaultColor: secondaryColor,
+                          selectedColor:
+                              Theme.of(context).colorScheme.mainButtonSellected,
+                          defaultColor:
+                              Theme.of(context).colorScheme.mainButtonDefault,
                         )
                       ],
                     ),

@@ -1,7 +1,8 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:rust_controll/widgets/change_theme_button_widget.dart';
+import 'package:rust_controll/theme/theme_provider.dart';
+import 'package:rust_controll/theme/change_theme_button_widget.dart';
 
 class settingsScreen extends StatelessWidget {
   const settingsScreen({Key? key}) : super(key: key);
@@ -16,13 +17,14 @@ class settingsScreen extends StatelessWidget {
             Container(
               height: 100,
               decoration: BoxDecoration(
-                color: Colors.blueAccent,
+                // color: Colors.blueAccent,
+                color: Theme.of(context).colorScheme.blueContainer,
                 borderRadius: const BorderRadius.all(
                   Radius.circular(20),
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.blue.withOpacity(0.5),
+                    color: Theme.of(context).colorScheme.blueContainerShadow,
                     spreadRadius: 2,
                     blurRadius: 6,
                     offset: const Offset(2, 3),
@@ -30,16 +32,11 @@ class settingsScreen extends StatelessWidget {
                 ],
               ),
               child: Column(
-                children: const [
+                children: [
                   SizedBox(height: 5),
-                  Text(
-                    "Settings",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30,
-                    ),
-                  ),
-                  ChangeThemeButtonWidget(),
+                  Text("Settings",
+                      style: Theme.of(context).textTheme.headline2),
+                  const ChangeThemeButtonWidget(),
                 ],
               ),
             ),
